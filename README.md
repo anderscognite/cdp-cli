@@ -12,7 +12,9 @@ export COGNITE_API_KEY=<apikey>
 export COGNITE_PROJECT=<project>
 ```
 # Examples
+
 `cdp-cli --get /assets`
+
 `cdp-cli --get /3d/models --project akerbp --apikey $COGNITE_API_KEY_ABP` --apiversion 0.6
 
 # Process responses with `jq`
