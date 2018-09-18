@@ -20,9 +20,15 @@ export COGNITE_PROJECT=<project>
 [jq documentation](https://stedolan.github.io/jq/), [tutorial](https://stedolan.github.io/jq/tutorial/) and [download instructions](https://stedolan.github.io/jq/download/).
 
 Our API returns a JSON that we can handle with `jq` to i.e. extract relevant information or manipulate the result. Some examples:
+
 `cdp-cli --get /assets | jq` (Pretty print)
+
 `cdp-cli --get /assets | jq '.data.items'` (Print `.data.items` from response)
+
 `cdp-cli --get /assets | jq '.data.items[]'` (Print each element in `.data.items` array)
+
 `cdp-cli --get /assets | jq -c '.data.items[]'` (Print each element, one per line)
+
 `cdp-cli --get /assets | jq -c '.data.items[] | .id'` (Print only id's from all assets)
+
 `cdp-cli --get /assets | jq -c '.data.items[] | {id: .id, name: .name}'` (Print new objects with only id's and names)
