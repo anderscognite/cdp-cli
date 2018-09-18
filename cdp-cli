@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+
+import os
+import requests
+import json
+from argparse import ArgumentParser
+
+api_version = default=os.getenv('COGNITE_API_VERSION') if os.getenv('COGNITE_API_VERSION') else '0.5'
+
+parser = ArgumentParser()
+parser.add_argument('--project', '-p', default=os.getenv('COGNITE_PROJECT'), help='Specify project in CDP')
+parser.add_argument('--apikey', '-a', default=os.getenv('COGNITE_API_KEY'), help='Specify api key for project')
+parser.add_argument('--apiversion', '-v', default=api_version, help='Specify api version (default: 0.5)')
+parser.add_argument('--get', type=str, help='Perform GET request')
+parser.add_argument('--post', type=str, help='Perform POST request')
+parser.add_argument("--debug", default=False, action="store_true", help='Print debug info')
+
+args = parser.parse_args()
+
+if not args.project or not args.apikey:
+	print('You need to specify project and api key:\n')
+	print('cdp-cli --project <project> --apikey <apikey>\n')
+	print('or set environment variables')
+	print('export COGNITE_PROJECT=<project>')
+	print('export COGNITE_API_KEY=<apikey>')
+	exit()
+
+if args.debug:
+	print(json.dumps({'state': {'project': args.project, 'apikey': args.apikey, 'apiversion': args.apiversion}}))
+	
+def get(url):
+	baseUrl = "https://api.cognitedata.com/api/0.5/projects/%s" % args.project
+	url = baseUrl+url
+	
+	headers = {'Api-key': args.apikey,
+			   'Content-Type': 'application/json'}
+	params = {}
+	cookies = {}
+
+	if args.debug:
+		return {'request': {'url': url, 'headers': headers, 'params': params, 'cookies': cookies}}
+	
+	res = requests.get(url, params=params, headers=headers, cookies=cookies)
+	if res.status_code == 200:
+		data = res.json()
+		return data
+	else:
+		return {'error': {'code': res.status_code}}
+		
+def post(url, body):
+	baseUrl = "https://api.cognitedata.com/api/0.5/projects/%s" % args.project
+	url = baseUrl+url
+	
+	headers = {'Api-key': args.apikey,
+			   'Content-Type': 'application/json'}
+	params = {}
+	cookies = {}
+	
+	res = requests.post(url, data=body, headers=headers, params=params, cookies=cookies)
+	if res.status_code == 200:
+		data = res.json()
+		return data
+	else:
+		return {'error': {'code': res.status_code}}
+
+if args.get:
+	print(json.dumps(get(args.get)))
+
+if args.post:
+	print(json.dumps(post(args.post)))
