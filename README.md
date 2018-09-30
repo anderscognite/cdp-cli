@@ -15,7 +15,7 @@ export COGNITE_PROJECT=<project>
 
 `cdp-cli --get /assets`
 
-`cdp-cli --get /3d/models --project akerbp --apikey $COGNITE_API_KEY_ABP` --apiversion 0.6
+`cdp-cli --get /3d/models --project akerbp --apikey $COGNITE_API_KEY_ABP --apiversion 0.6`
 
 # Process responses with `jq`
 `jq` is a lightweight and flexible command-line JSON processor, and is extremely useful to handle JSON responses from our API.
