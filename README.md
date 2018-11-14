@@ -3,7 +3,7 @@ A client written in Python to efficiently perform API requests in the terminal.
 # System setup (macOS and Linux)
 Clone this repository and add folder to PATH
 ```
-git clone git@github.com:cognitedata/cdp-cli.git
+git clone git@github.com:anderscognite/cdp-cli.git
 echo "$(pwd)/cdp-cli" >> ~/.bashrc
 ```
 You can either specify `project` and `apikey` as arguments, or with environment variables
